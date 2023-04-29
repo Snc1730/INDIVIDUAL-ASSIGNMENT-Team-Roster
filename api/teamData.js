@@ -11,7 +11,13 @@ const getTeams = (uid) => new Promise((resolve, reject) => {
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    })
     .catch(reject);
 });
 
@@ -41,7 +47,16 @@ const createTeam = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((data) => {
+      const setcode = { firebaseKey: data.name };
+      fetch(`${endpoint}/teams/${setcode.firebaseKey}.json`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(setcode),
+      }).then(resolve);
+    })
     .catch(reject);
 });
 
@@ -81,8 +96,13 @@ const updateTeam = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then(resolve)
-    .catch(reject);
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
+      } else {
+        resolve([]);
+      }
+    }).catch(reject);
 });
 
 // GET SINGLE TEAM'S POKEMON

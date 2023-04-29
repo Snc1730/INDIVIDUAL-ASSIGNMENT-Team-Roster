@@ -16,7 +16,6 @@ function TeamCard({ teamObj, onUpdate }) {
     <Card style={{ width: '18rem', margin: '10px', display: 'flex' }}>
       <Card.Body>
         <Card.Title>{teamObj.team_name}</Card.Title>
-        <p className="card-text bold">{teamObj.image}</p>
         <p className="card-text bold">{teamObj.favorite && <span>Favorite<br /></span> } {teamObj.favorite}</p>
         <Link href={`/team/${teamObj.firebaseKey}`} passHref>
           <Button variant="primary" className="m-2">VIEW</Button>
