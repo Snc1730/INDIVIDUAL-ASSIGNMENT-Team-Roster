@@ -4,7 +4,7 @@ const endpoint = clientCredentials.databaseURL;
 
 // GET POKEMON
 const getPokemon = (uid) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/pokemon.json?orderBy="${uid}"`, {
+  fetch(`${endpoint}/pokemon.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -57,7 +57,16 @@ const createPokemon = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((data) => {
+      const setcode = { firebaseKey: data.name };
+      fetch(`${endpoint}/pokemon/${setcode.firebaseKey}.json`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(setcode),
+      }).then(resolve);
+    })
     .catch(reject);
 });
 
@@ -85,8 +94,8 @@ const favoritePokemon = (uid) => new Promise((resolve, reject) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      const onSale = Object.values(data).filter((item) => item.sale);
-      resolve(onSale);
+      const isFavorite = Object.values(data).filter((item) => item.favorite);
+      resolve(isFavorite);
     })
     .catch(reject);
 });

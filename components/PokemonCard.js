@@ -19,7 +19,7 @@ function PokemonCard({ pokemonObj, onUpdate }) {
       <Card.Img variant="top" src={pokemonObj.image} alt={pokemonObj.name} style={{ height: '400px' }} />
       <Card.Body>
         <Card.Title>{pokemonObj.name}</Card.Title>
-        <p className="card-text bold">{pokemonObj.favorite && <span>FAVORITE<br /></span> } ${pokemonObj.type}</p>
+        <p className="card-text bold">{pokemonObj.favorite && <span>FAVORITE<br /></span> } {pokemonObj.type}</p>
         {/* DYNAMIC LINK TO VIEW THE POKEMON DETAILS  */}
         <Link href={`/pokemon/${pokemonObj.firebaseKey}`} passHref>
           <Button variant="primary" className="m-2">VIEW</Button>
